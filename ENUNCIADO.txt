@@ -1,0 +1,55 @@
+Proyecto 2: El Juego de la vida
+El Juego de la Vida fue desarrollado por J.H. Conway en 1970. Aunque parezca un juego, realmente es un modelo de una población de células  que interactúan con su entorno. En el núcleo del modelo se encuentra una cuadrícula que representa el "mundo".
+Cada cuadrado puede estar ocupado por una célula viva o una muerta. La ejecución del juego produce una serie de generaciones donde cada una de ellas es un mundo derivado del anterior.
+
+Las células interactúan entre si usando las siguientes reglas:
+
+Una célula muerta con exactamente 3 vecinos vivos se convierte en una célula viva (nacimiento)
+reglas1.gif
+Una célula viva con 2 ó 3 vecinos vivos permanece viva (supervivencia)
+reglas2.gif
+En todos los demás casos, una célula muere o permanece muerta (sobrepoblación o soledad)
+reglas3.gif
+
+Para mayor información acerca del juego revisen la página  Conway´s Game of Life (Enlaces a un sitio externo.)  .
+
+Objetivos
+  Familiarizarse con el manejo de pipes
+Descripción General
+Se desea que Ud. implemente el Juego de la Vida usando procesos y comunicación entre procesos.  La cuadrícula que representa el mundo será  repartida entre los distintos procesos que intervienen en la simulación. Cada proceso trabajará con un subconjunto  de las filas de la cuadrícula.
+
+El juego será invocado de la siguiente forma
+    juego <n_procesos>  <n_generaciones> <n_visualizacion> <archivo>
+
+donde
+
+n_procesos	número de procesos hijos
+n_generaciones	número de generaciones o mundos a ser generados
+n_visualizaciones	cada cuántas generaciones se desea ver el mundo generado
+archivo	nombre del archivo que contiene el mundo inicial
+El proceso padre crea  <n_procesos>  y lee de <archivo> el tamaño del mundo a simular (número de filas y columnas).
+Cada proceso hijo lee de <archivo> la porción del mundo que le corresponde simular y almacena dicha información. Los procesos hijos no deben leer la información que le corresponde a otro proceso.  A cada proceso hijo le corresponde un  número equidistribuido de filas que dependerá del tamaño de la cuadrícula y del número de procesos involucrados.
+
+Cada etapa de la simulación consta de los siguientes pasos:
+Intercambio: Cada proceso envía y recibe de sus vecinos la información acerca de las filas de la cuadrícula que le interesan. Esta etapa involucra comunicación entre proceso que deberá ser implementada por medio de  pipes
+Generación: Se actualizan las celdas de la cuadrícula dependiendo del estado actual usando las reglas arriba mencionadas
+La simulación se repite <n_generaciones>  y cada <n_visualizaciones> el padre debe mostar el mundo. 
+
+Formato de <archivo> con el mundo Inicial
+La primera linea del archivo contiene nfilas  ncol
+nfilas
+entero que indica el número de filas en la cuadrícula
+ncol     
+entero que indica el número de columnas en la cuadrícula
+Las siguientes  nfilas lineas del archivo tienen la forma:
+  Ci 0 Ci 1 Ci 2 .... Ci ncol-1
+
+donde Cij es igual a cero si hay una célula muerta en la celda ij, y es igual a 1 si hay una célula viva.
+Observaciones
+El proyecto debe ser desarrollado en lenguaje C en Linux.
+No deben descuidar la utilización de la memoria. Ningún proceso hijo deberá almacenar toda la cuadrícula.
+Debe hacer uso del makefile.
+Deben hacer un programa modular y claro. Recuerden usar bibliotecas y headers.
+El código debe de estar bien documentado y estructurado.
+Entrega
+El código fuente del proyecto debe ser entregado en un archivo tar.gz por la plataforma Canvas. Antes de crear el tar.gz, ejecute la orden make clean, es decir, elimine los archivos de objeto y el ejecutable de su programa.
